@@ -2,8 +2,6 @@
 # Created by https://www.gitignore.io/api/node,jetbrains+all
 # Edit at https://www.gitignore.io/?templates=node,jetbrains+all
 
-.gitignore
-
 ### JetBrains+all ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and WebStorm
 # Reference: https://intellij-support.jetbrains.com/hc/en-us/articles/206544839
@@ -133,7 +131,6 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
-package-lock.json
 
 # TypeScript v1 declaration files
 typings/
