@@ -50,8 +50,6 @@ export const app = new Vue({
   data() {
     return {
       rawMeetup: null,
-      agendaItemIcons,
-      agendaItemTitles
     }
   },
 
