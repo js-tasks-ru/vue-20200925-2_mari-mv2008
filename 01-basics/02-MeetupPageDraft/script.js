@@ -47,20 +47,48 @@ const agendaItemIcons = {
 export const app = new Vue({
   el: '#app',
 
-  data: {
-    //
+  data() {
+    return {
+      rawMeetup: null,
+    }
   },
 
   mounted() {
-    // Требуется получить данные митапа с API
+    this.fetchMeetup() // Требуется получить данные митапа с API
   },
 
   computed: {
-    //
+    meetup() {
+      let meetup = this.rawMeetup;
+      if (!meetup) return null;
+      return {
+        ...meetup,
+        cover: meetup.imageId ? getMeetupCoverLink(meetup) : undefined,
+        date: new Date(meetup.date),
+        localDate: new Date(meetup.date).toLocaleString(navigator.language, {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        }),
+        ISODate: new Date(meetup.date).toISOString().substr(0, 10),
+        agenda: meetup.agenda.map((agendaItem) => ({
+          ...agendaItem,
+          icon: agendaItem.type ? agendaItemIcons[agendaItem.type] : agendaItemIcons[other]
+        }))
+      }
+    },
   },
 
   methods: {
-    // Получение данных с API предпочтительнее оформить отдельным методом,
-    // а не писать прямо в mounted()
+    // Получение данных с API предпочтительнее оформить отдельным методом, а не писать прямо в mounted()
+    async fetchMeetup() {
+      let rawMeetup = await fetch(`${API_URL}/meetups/${MEETUP_ID}`);
+      if (rawMeetup.ok) {
+        let json = await rawMeetup.json();
+        this.rawMeetup = json;
+      } else {
+        alert("Ошибка HTTP: " + rawMeetup.status);
+      }
+    },
   },
 });
